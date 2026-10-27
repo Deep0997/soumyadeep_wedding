@@ -12,6 +12,10 @@
 (() => {
   "use strict";
 
+  // Keep the couple portrait alongside this script; works on GitHub Pages project paths too.
+  const scriptElement = document.currentScript || Array.from(document.scripts).reverse().find(s => s.src && s.src.includes("wedding-animations"));
+  const couplePhotoSrc = scriptElement?.src ? new URL("couple-photo.jpg", scriptElement.src).href : "couple-photo.jpg";
+
   if (window.__weddingAnimationsLoaded) return;
   window.__weddingAnimationsLoaded = true;
 
@@ -166,9 +170,32 @@
     .wfx-intro.is-opening { opacity: 0; visibility: hidden; pointer-events: none; }
     .wfx-intro-card {
       position: relative; z-index: 2; width: min(520px, 100%); text-align: center;
-      padding: clamp(30px, 6vw, 58px) 22px; border: 1px solid rgba(160,119,55,.55);
+      padding: clamp(22px, 4vw, 38px) 22px; border: 1px solid rgba(160,119,55,.55);
       outline: 1px solid rgba(160,119,55,.32); outline-offset: 7px;
-      background: rgba(255,250,241,.86); box-shadow: 0 24px 90px rgba(74,37,45,.15);
+      background: rgba(255,250,241,.9); box-shadow: 0 24px 90px rgba(74,37,45,.15);
+      max-height: calc(100svh - 44px); overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-width: thin; scrollbar-color: rgba(181,138,69,.5) transparent;
+    }
+    .wfx-couple-photo {
+      position: relative; isolation: isolate; width: clamp(84px, 16vh, 128px);
+      height: clamp(126px, 24vh, 190px); padding: 5px; margin: 8px auto 14px;
+      border: 1px solid rgba(178,139,75,.9); outline: 1px solid rgba(178,139,75,.42);
+      outline-offset: 3px; background: #fffaf1; box-shadow: 0 9px 25px rgba(103,37,60,.18);
+      animation: wfx-photo-arrive .8s cubic-bezier(.2,.65,.25,1) both;
+    }
+    .wfx-couple-photo::before, .wfx-couple-photo::after {
+      position: absolute; z-index: 2; color: #b58a45; font: 19px/1 Georgia,serif;
+      text-shadow: 0 1px 5px rgba(255,250,241,.9); pointer-events:none;
+    }
+    .wfx-couple-photo::before { content:'❧'; left:-11px; top:-10px; transform:rotate(-28deg); }
+    .wfx-couple-photo::after { content:'❧'; right:-11px; bottom:-10px; transform:rotate(152deg); }
+    .wfx-couple-photo img {
+      display:block; width:100%; height:100%; object-fit:cover; object-position:center;
+      border:1px solid rgba(201,168,107,.35); background:#f3e4d4;
+    }
+    @keyframes wfx-photo-arrive {
+      from { opacity:0; transform:translateY(10px) scale(.97); }
+      to { opacity:1; transform:translateY(0) scale(1); }
     }
     .wfx-intro-floral { color: #b58a45; font-size: 31px; letter-spacing: .2em; margin-bottom: 12px; }
     .wfx-intro-kicker { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: #8b6840; }
@@ -207,6 +234,34 @@
     .wfx-intro.is-opening .wfx-intro-card { opacity: 0; transform: translateY(-12px) scale(.97); transition: opacity .35s ease, transform .45s ease; }
     .wfx-intro-skip { position:absolute; top:18px; right:20px; border:0; background:transparent; color:#705641; text-decoration:underline; cursor:pointer; font:12px Georgia,serif; z-index:4; }
 
+    /* Main-page couple portrait: stays on the hero, not the opening overlay. */
+    .hero.wfx-has-main-photo { height: auto; min-height: max(710px, 100svh); padding-bottom: 76px; }
+    .wfx-main-couple-photo {
+      position: relative; isolation: isolate; display: block;
+      width: clamp(220px, 25vw, 300px); height: clamp(285px, 32vw, 390px);
+      padding: 6px; margin: 4px auto 28px; border: 1px solid #c9a86b;
+      outline: 1px solid rgba(201,168,107,.48); outline-offset: 4px;
+      background: linear-gradient(135deg,#f4ddb0,#a88045 48%,#f7e8c4);
+      box-shadow: 0 16px 38px rgba(0,0,0,.26), 0 0 34px rgba(201,168,107,.12);
+      animation: wfx-main-photo-arrive .9s cubic-bezier(.2,.65,.25,1) both;
+    }
+    .wfx-main-couple-photo::before, .wfx-main-couple-photo::after {
+      content: '✧'; position: absolute; z-index: 2; color: #e8ce91;
+      font: 19px/1 Georgia,serif; text-shadow: 0 1px 7px rgba(0,0,0,.4);
+      pointer-events: none;
+    }
+    .wfx-main-couple-photo::before { top: -12px; left: -11px; transform: rotate(-18deg); }
+    .wfx-main-couple-photo::after { right: -11px; bottom: -12px; transform: rotate(18deg); }
+    .wfx-main-couple-photo img {
+      display: block; width: 100%; height: 100%; object-fit: cover;
+      object-position: 50% 42%; border: 1px solid rgba(255,244,214,.55);
+      background: #4b2732;
+    }
+    @keyframes wfx-main-photo-arrive {
+      from { opacity: 0; transform: translateY(12px) scale(.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     /* Intentionally do not override the original hero heading or couple-name styles. */
 
     /* Interactive three-day timeline inserted above the existing event cards */
@@ -227,8 +282,12 @@
       .wfx-timeline-name { font-size:12px; }
       .wfx-timeline-date { font-size:8px; letter-spacing:.06em; }
       .wfx-timeline-status { font-size:7px; letter-spacing:.05em; }
-      .wfx-intro-copy { font-size:14px; }
-      .wfx-intro-title { font-size: clamp(36px, 9.6vw, 46px); line-height: 1.2; }
+      .wfx-main-couple-photo { width: min(64vw, 230px); height: min(82vw, 300px); margin: 8px auto 24px; }
+      .wfx-intro-card { padding: 18px 15px; max-height: calc(100svh - 32px); }
+      .wfx-intro-floral { margin-bottom: 7px; font-size: 27px; }
+      .wfx-intro-title { margin: 12px 0 9px; font-size: clamp(36px, 9.6vw, 46px); line-height: 1.2; }
+      .wfx-couple-photo { margin: 6px auto 11px; }
+      .wfx-intro-copy { font-size:14px; margin-bottom:16px; }
     }
     @media(prefers-reduced-motion:reduce) {
       .wfx-intro,.wfx-intro-door,.wfx-intro-card,.wfx-intro-open,.wfx-timeline-dot { transition:none!important; }
@@ -330,9 +389,28 @@
     }
 
     // Show the invitation-opening moment once per browser tab session.
+    function buildMainHeroPhoto() {
+      const hero = document.querySelector(".hero");
+      const content = hero?.querySelector(".hero-content");
+      const copy = content?.querySelector(".hero-copy");
+      if (!hero || !content || !copy || content.querySelector(".wfx-main-couple-photo")) return;
+      hero.classList.add("wfx-has-main-photo");
+
+      const figure = document.createElement("figure");
+      figure.className = "wfx-main-couple-photo";
+      const image = document.createElement("img");
+      image.src = couplePhotoSrc;
+      image.alt = "Soumyadeep and Rica together";
+      image.loading = "eager";
+      image.decoding = "async";
+      image.fetchPriority = "high";
+      figure.appendChild(image);
+      copy.insertAdjacentElement("afterend", figure);
+    }
+
     function buildRoyalIntro() {
       if (reduceMotion) return;
-      try { if (sessionStorage.getItem("wfx-intro-opened") === "1") return; } catch (_) {}
+      try { if (sessionStorage.getItem("wfx-intro-opened-photo-v1") === "1") return; } catch (_) {}
       const intro = document.createElement("div");
       intro.className = "wfx-intro";
       intro.setAttribute("role", "dialog");
@@ -352,7 +430,7 @@
       document.body.appendChild(intro);
       const close = () => {
         if (intro.classList.contains("is-opening")) return;
-        try { sessionStorage.setItem("wfx-intro-opened", "1"); } catch (_) {}
+        try { sessionStorage.setItem("wfx-intro-opened-photo-v1", "1"); } catch (_) {}
         // Brief floral welcome burst at the centre when the invitation opens.
         if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches !== true) {
           const symbols = ["✿", "❀", "✧", "❁", "✽", "✦"];
@@ -381,6 +459,7 @@
       intro.querySelector(".wfx-intro-open").focus({ preventScroll: true });
     }
 
+    buildMainHeroPhoto();
     buildTimeline();
     buildRoyalIntro();
     if (reduceMotion) return;
