@@ -156,6 +156,20 @@
         transition: none !important;
       }
     }
+
+
+    /* Playful couple mascot: a tiny running Indian bride and groom */
+    #wfx-couple-mascot { position:fixed; right:18px; bottom:18px; z-index:9998; display:flex; align-items:flex-end; gap:8px; max-width:min(320px, calc(100vw - 24px)); pointer-events:none; }
+    #wfx-couple-mascot .wfx-mascot-art { width:96px; height:104px; flex:0 0 auto; filter:drop-shadow(0 5px 8px rgba(35,12,20,.22)); transform-origin:bottom center; animation:wfx-mascot-run 1.15s ease-in-out infinite; }
+    #wfx-couple-mascot .wfx-mascot-bubble { pointer-events:auto; position:relative; margin-bottom:48px; border:1px solid #d2b16d; border-radius:16px 16px 16px 4px; padding:10px 12px; background:#fff8eb; color:#5c2636; box-shadow:0 5px 18px rgba(35,12,20,.18); font:13px/1.35 Georgia,serif; max-width:190px; animation:wfx-mascot-pop .45s cubic-bezier(.2,.8,.2,1) both; }
+    #wfx-couple-mascot .wfx-mascot-bubble strong { color:#9b6e27; font-weight:700; }
+    #wfx-couple-mascot .wfx-mascot-close { pointer-events:auto; position:absolute; top:-8px; right:-7px; width:22px; height:22px; border:1px solid #d2b16d; border-radius:50%; background:#fff8eb; color:#6d3444; cursor:pointer; font-size:14px; line-height:1; }
+    #wfx-couple-mascot.wfx-mascot-jump .wfx-mascot-art { animation:wfx-mascot-jump .55s ease-in-out; }
+    @keyframes wfx-mascot-run { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(2deg)} }
+    @keyframes wfx-mascot-jump { 0%,100%{transform:translateY(0) rotate(0)} 35%{transform:translateY(-20px) rotate(-7deg)} 70%{transform:translateY(-4px) rotate(5deg)} }
+    @keyframes wfx-mascot-pop { from{opacity:0;transform:translateY(8px) scale(.92)} to{opacity:1;transform:translateY(0) scale(1)} }
+    @media(max-width:640px) { #wfx-couple-mascot {right:8px;bottom:10px;gap:4px} #wfx-couple-mascot .wfx-mascot-art{width:72px;height:80px} #wfx-couple-mascot .wfx-mascot-bubble{font-size:11px;max-width:150px;padding:8px 10px;margin-bottom:35px} }
+    @media(prefers-reduced-motion:reduce) { #wfx-couple-mascot .wfx-mascot-art,#wfx-couple-mascot .wfx-mascot-bubble{animation:none!important} }
   `;
 
   const premiumCss = `
@@ -294,8 +308,59 @@
     }
   `;
 
+  function addCoupleMascot() {
+    if (document.getElementById("wfx-couple-mascot")) return;
+    const mascot = document.createElement("aside");
+    mascot.id = "wfx-couple-mascot";
+    mascot.setAttribute("aria-label", "A playful wedding greeting from the couple");
+    mascot.innerHTML = `
+      <svg class="wfx-mascot-art" viewBox="0 0 120 130" role="img" aria-label="Cartoon Indian groom running with his bride" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="wfx-groom-coat" x1="0" x2="1"><stop stop-color="#fff4df"/><stop offset="1" stop-color="#d8b987"/></linearGradient><linearGradient id="wfx-bride-dress" x1="0" x2="1"><stop stop-color="#e9a0b1"/><stop offset="1" stop-color="#a92f52"/></linearGradient></defs>
+        <!-- Groom: ivory sherwani, maroon stole, turban -->
+        <g stroke-linecap="round" stroke-linejoin="round">
+          <path d="M28 57 Q19 60 14 76 L24 80 L38 66" fill="none" stroke="#b87954" stroke-width="7"/><path d="M39 88 L27 107 L17 112" fill="none" stroke="#4c2835" stroke-width="8"/><path d="M49 88 L57 105 L70 108" fill="none" stroke="#4c2835" stroke-width="8"/>
+          <path d="M27 48 Q27 35 40 34 Q54 36 54 51 L51 83 Q40 91 28 82Z" fill="url(#wfx-groom-coat)" stroke="#b88a51" stroke-width="1.5"/><path d="M38 39 L44 60 L50 42" fill="#7e2c45"/><path d="M42 43 L42 78" stroke="#c7a15a" stroke-width="2"/>
+          <circle cx="41" cy="26" r="12" fill="#b87954"/><path d="M29 25 Q25 13 39 10 Q51 7 55 18 L50 22 L36 20Z" fill="#8d304b" stroke="#c7a15a" stroke-width="1.5"/><path d="M32 15 Q41 5 51 14" fill="none" stroke="#e2c477" stroke-width="3"/>
+          <path d="M51 50 Q60 43 67 52 L75 63" fill="none" stroke="#b87954" stroke-width="6"/>
+          <!-- Bride running alongside, pink lehenga and dupatta -->
+          <path d="M72 85 L62 104 L53 112" fill="none" stroke="#b87954" stroke-width="6"/><path d="M87 85 L99 101 L110 103" fill="none" stroke="#b87954" stroke-width="6"/>
+          <path d="M69 54 Q81 49 91 56 L101 87 Q85 99 64 88Z" fill="url(#wfx-bride-dress)" stroke="#c7a15a" stroke-width="1.5"/><path d="M70 60 Q60 56 58 66 L68 73" fill="none" stroke="#b87954" stroke-width="6"/><path d="M83 58 L94 82" stroke="#f2d28b" stroke-width="2" stroke-dasharray="2 4"/>
+          <circle cx="81" cy="39" r="11" fill="#c98562"/><path d="M69 38 Q67 24 81 23 Q95 25 94 40 L89 34 L76 33Z" fill="#2e1b20"/><path d="M70 34 Q61 40 66 56 L73 60 L76 44Z" fill="#6b2a3d"/><path d="M68 29 Q80 18 92 29" fill="none" stroke="#c7a15a" stroke-width="3"/><circle cx="88" cy="39" r="1.2" fill="#3a2027"/><path d="M82 45 Q86 48 89 44" fill="none" stroke="#7c3446" stroke-width="1.5"/>
+          <path d="M53 64 Q61 49 72 58" fill="none" stroke="#b87954" stroke-width="5"/><path d="M53 64 L68 70" stroke="#c7a15a" stroke-width="2"/>
+          <path d="M18 25 l3 -6 l3 6 l6 3 l-6 3 l-3 6 l-3 -6 l-6 -3Z" fill="#c7a15a"/><path d="M104 48 l2 -4 l2 4 l4 2 l-4 2 l-2 4 l-2 -4 l-4 -2Z" fill="#d88b9b"/>
+        </g>
+      </svg>
+      <div class="wfx-mascot-bubble" aria-live="polite"><button class="wfx-mascot-close" type="button" aria-label="Hide wedding mascot">×</button><strong>Hi! 👋</strong><br>We ran away with the wedding sweets! 🍬</div>
+    `;
+    document.body.appendChild(mascot);
+    const bubble = mascot.querySelector(".wfx-mascot-bubble");
+    const jokes = [
+      ["Hi! 👋", "We ran away with the wedding sweets! 🍬"],
+      ["Breaking news! 💃", "The bride is faster than the groom."],
+      ["Groom update 🤵", "I said ‘just one photo’… 247 photos ago."],
+      ["Bride says 👰", "First the puchka, then the pheras! 😋"],
+      ["Important! 🌸", "Please RSVP. We need to count the laddoos."],
+      ["Caught running! 🏃", "We're escaping to the dance floor! 🎶"]
+    ];
+    let jokeIndex = 0;
+    const showJoke = () => {
+      jokeIndex = (jokeIndex + 1) % jokes.length;
+      bubble.querySelector("strong").textContent = jokes[jokeIndex][0];
+      const textNode = bubble.lastChild;
+      if (textNode) textNode.textContent = "\n" + jokes[jokeIndex][1];
+      mascot.classList.remove("wfx-mascot-jump");
+      void mascot.offsetWidth;
+      mascot.classList.add("wfx-mascot-jump");
+    };
+    mascot.querySelector(".wfx-mascot-art").addEventListener("click", showJoke);
+    bubble.addEventListener("click", (event) => { if (!event.target.closest("button")) showJoke(); });
+    mascot.querySelector(".wfx-mascot-close").addEventListener("click", () => mascot.remove());
+    window.setInterval(() => { if (document.body.contains(mascot)) showJoke(); }, 6500);
+  }
+
   function init() {
     if (!document.body) return;
+    addCoupleMascot();
 
     // Load an elegant calligraphy face for the invitation overlay only. If the
     // external font cannot load, the CSS falls back to local cursive fonts.
