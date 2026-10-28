@@ -159,17 +159,19 @@
 
 
     /* Playful couple mascot: a tiny running Indian bride and groom */
-    #wfx-couple-mascot { position:fixed; right:18px; bottom:18px; z-index:9998; display:flex; align-items:flex-end; gap:8px; max-width:min(320px, calc(100vw - 24px)); pointer-events:none; }
+    #wfx-couple-mascot { position:fixed; right:18px; bottom:18px; z-index:9998; display:flex; align-items:flex-end; gap:8px; max-width:min(320px, calc(100vw - 24px)); pointer-events:none; animation:wfx-mascot-travel 12s ease-in-out infinite; }
     #wfx-couple-mascot .wfx-mascot-art { width:96px; height:104px; flex:0 0 auto; filter:drop-shadow(0 5px 8px rgba(35,12,20,.22)); transform-origin:bottom center; animation:wfx-mascot-run 1.15s ease-in-out infinite; }
     #wfx-couple-mascot .wfx-mascot-bubble { pointer-events:auto; position:relative; margin-bottom:48px; border:1px solid #d2b16d; border-radius:16px 16px 16px 4px; padding:10px 12px; background:#fff8eb; color:#5c2636; box-shadow:0 5px 18px rgba(35,12,20,.18); font:13px/1.35 Georgia,serif; max-width:190px; animation:wfx-mascot-pop .45s cubic-bezier(.2,.8,.2,1) both; }
     #wfx-couple-mascot .wfx-mascot-bubble strong { color:#9b6e27; font-weight:700; }
     #wfx-couple-mascot .wfx-mascot-close { pointer-events:auto; position:absolute; top:-8px; right:-7px; width:22px; height:22px; border:1px solid #d2b16d; border-radius:50%; background:#fff8eb; color:#6d3444; cursor:pointer; font-size:14px; line-height:1; }
     #wfx-couple-mascot.wfx-mascot-jump .wfx-mascot-art { animation:wfx-mascot-jump .55s ease-in-out; }
-    @keyframes wfx-mascot-run { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(2deg)} }
+    @keyframes wfx-mascot-run { 0%,100%{transform:translateY(0) rotate(-5deg)} 25%{transform:translateY(-8px) rotate(5deg)} 50%{transform:translateY(0) rotate(-5deg)} 75%{transform:translateY(-7px) rotate(5deg)} }
+    @keyframes wfx-mascot-travel { 0%,12%{transform:translateX(0)} 42%{transform:translateX(calc(-1 * min(58vw, 620px)))} 58%{transform:translateX(calc(-1 * min(58vw, 620px)))} 88%,100%{transform:translateX(0)} }
+    @keyframes wfx-mascot-travel-mobile { 0%,12%{transform:translateX(0)} 42%{transform:translateX(calc(-1 * min(42vw, 240px)))} 58%{transform:translateX(calc(-1 * min(42vw, 240px)))} 88%,100%{transform:translateX(0)} }
     @keyframes wfx-mascot-jump { 0%,100%{transform:translateY(0) rotate(0)} 35%{transform:translateY(-20px) rotate(-7deg)} 70%{transform:translateY(-4px) rotate(5deg)} }
     @keyframes wfx-mascot-pop { from{opacity:0;transform:translateY(8px) scale(.92)} to{opacity:1;transform:translateY(0) scale(1)} }
-    @media(max-width:640px) { #wfx-couple-mascot {right:8px;bottom:10px;gap:4px} #wfx-couple-mascot .wfx-mascot-art{width:72px;height:80px} #wfx-couple-mascot .wfx-mascot-bubble{font-size:11px;max-width:150px;padding:8px 10px;margin-bottom:35px} }
-    @media(prefers-reduced-motion:reduce) { #wfx-couple-mascot .wfx-mascot-art,#wfx-couple-mascot .wfx-mascot-bubble{animation:none!important} }
+    @media(max-width:640px) { #wfx-couple-mascot {right:8px;bottom:10px;gap:4px; animation-name:wfx-mascot-travel-mobile} #wfx-couple-mascot .wfx-mascot-art{width:72px;height:80px} #wfx-couple-mascot .wfx-mascot-bubble{font-size:11px;max-width:150px;padding:8px 10px;margin-bottom:35px} }
+    @media(prefers-reduced-motion:reduce) { #wfx-couple-mascot,#wfx-couple-mascot .wfx-mascot-art,#wfx-couple-mascot .wfx-mascot-bubble{animation:none!important} }
   `;
 
   const premiumCss = `
